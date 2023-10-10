@@ -13,7 +13,7 @@ int main(){
     vetor = (float*) calloc (N, sizeof(float));
     
     if (vetor == NULL){
-        cout<<"\nmemoria nao alocada";
+        cout<<"\nmemoria nao alocada"; return 0;
     }else{cout<<"\nmemoria alocada";}
 
     cout<<"\nValores do vetor:\n";
