@@ -1,12 +1,10 @@
-/*
-2. Construir uma função que cria uma lista ligada para conter em cada nó um termo da seguinte soma: (ND 3)
-*/
+
 #include <iostream>
 #include <iomanip>
 #include <stdlib.h>
 using namespace std;
 
-typedef float elemento; //Estou dizendo que int agora irá se chamar elemento, dando um apelido, isso permite que daqui pra frente eu chame int de elemento!
+typedef int elemento; //Estou dizendo que int agora irá se chamar elemento, dando um apelido, isso permite que daqui pra frente eu chame int de elemento!
 
 typedef struct no{
     elemento info; //elemento é o tipo (nesse caso inteiro) e info o nome da variável.
@@ -74,56 +72,61 @@ int conta_nos(no* pri){
         contador ++;
     }
     return contador;
-}
+};
 
+// funcao que insere uma informacao V após o valor X
+void insere_elemento(no ** pri, elemento v, elemento x){
+    no * novo;
+    no * p;
 
-// funcao para fazer a soma de termos
-void soma_termos(no ** pri, elemento a){
-    no *novo;
-    no *p;
-    float n = 1; //numerador
-    float d = 1; //denominador
-    float termo;
-
-    //primeiro vamos criar um nó com o elemento inicial
-    novo = novo_no();
-    novo->link = NULL;
-    termo = n / d;
-    novo->info = termo;
-
-    //agora atribuimos pri ao novo nó e em seguida também posicinamos p em pri
-    *pri = novo;
     p = *pri;
 
-    for (n=3 ; n< 100 ; n=n+2){
-        //vamos aumentando d de um em um
-        d++;
+    while(p!=NULL){
 
-        //criamos um novo no    
-        novo = novo_no();
-        novo->link = NULL;
-        termo += n / d;
-        novo->info = termo;
-
-        //conectamos o novo no a lista
-        p->link = novo;
-
-        //movemos a posicao do p para o no criado
-        p = p->link;
+        if(p->info == x){
+            novo = novo_no();
+            novo->info = v;
+            novo->link = p->link;
+            p->link = novo;
+            cout<<"\nValor V: "<<v<<" inserido.";
+            return;
+        }
+    p = p->link;
     }
-}
+    cout<<"\nValor X nao encontrado!";
+};
 
 
 int main(){
     no * pri;
-    int a = 1;
+    int X, V;
 
     pri = init();
 
-    soma_termos(&pri, a);
+    
+
+    inserir_final(&pri, 3);
+    inserir_final(&pri, 10);
+    inserir_final(&pri, 7);
+    inserir_final(&pri, 3);
+    inserir_final(&pri, 4);
+    inserir_final(&pri, 9);
+    inserir_final(&pri, 2);
+    inserir_final(&pri, 9);
+    inserir_final(&pri, 9);
+    inserir_final(&pri, 9);
+
 
     imprime(pri);
 
+    cout<<"\nDigite o valor que deseja inserir (V): ";cin>>V;
+    cout<<"\nDigite o valor da posicao onde ira inserir (X): ";cin>>X;
+
+    insere_elemento(&pri, V, X);
+
+    cout<<"\nNova lista:\n";
+
+    imprime(pri);
 
 
     return 0;

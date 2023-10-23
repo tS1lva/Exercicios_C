@@ -1,12 +1,10 @@
-/*
-2. Construir uma função que cria uma lista ligada para conter em cada nó um termo da seguinte soma: (ND 3)
-*/
+
 #include <iostream>
 #include <iomanip>
 #include <stdlib.h>
 using namespace std;
 
-typedef float elemento; //Estou dizendo que int agora irá se chamar elemento, dando um apelido, isso permite que daqui pra frente eu chame int de elemento!
+typedef int elemento; //Estou dizendo que int agora irá se chamar elemento, dando um apelido, isso permite que daqui pra frente eu chame int de elemento!
 
 typedef struct no{
     elemento info; //elemento é o tipo (nesse caso inteiro) e info o nome da variável.
@@ -74,56 +72,49 @@ int conta_nos(no* pri){
         contador ++;
     }
     return contador;
-}
+};
 
-
-// funcao para fazer a soma de termos
-void soma_termos(no ** pri, elemento a){
+// funcao que duplica nós
+void duplica_no(no ** pri){
     no *novo;
     no *p;
-    float n = 1; //numerador
-    float d = 1; //denominador
-    float termo;
 
-    //primeiro vamos criar um nó com o elemento inicial
-    novo = novo_no();
-    novo->link = NULL;
-    termo = n / d;
-    novo->info = termo;
-
-    //agora atribuimos pri ao novo nó e em seguida também posicinamos p em pri
-    *pri = novo;
     p = *pri;
 
-    for (n=3 ; n< 100 ; n=n+2){
-        //vamos aumentando d de um em um
-        d++;
-
-        //criamos um novo no    
+    while(p != NULL){
         novo = novo_no();
-        novo->link = NULL;
-        termo += n / d;
-        novo->info = termo;
-
-        //conectamos o novo no a lista
+        novo->info = p->info;
+        novo->link = p->link;
         p->link = novo;
-
-        //movemos a posicao do p para o no criado
-        p = p->link;
+        p = novo->link;
     }
 }
 
 
 int main(){
     no * pri;
-    int a = 1;
 
     pri = init();
 
-    soma_termos(&pri, a);
-
+    inserir_final(&pri, 3);
+    
+    inserir_final(&pri, 10);
+    inserir_final(&pri, 7);
+    inserir_final(&pri, 3);
+    inserir_final(&pri, 4);
+    inserir_final(&pri, 4);
+    inserir_final(&pri, 9);
+    inserir_final(&pri, 2);
+    inserir_final(&pri, 9);
+ 
     imprime(pri);
 
+
+    duplica_no(&pri);
+
+    cout<<"\nNova lista:\n";
+
+    imprime(pri);
 
 
     return 0;

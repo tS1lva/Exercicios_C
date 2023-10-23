@@ -1,6 +1,4 @@
-/*
-2. Construir uma função que cria uma lista ligada para conter em cada nó um termo da seguinte soma: (ND 3)
-*/
+
 #include <iostream>
 #include <iomanip>
 #include <stdlib.h>
@@ -74,45 +72,46 @@ int conta_nos(no* pri){
         contador ++;
     }
     return contador;
-}
-
+};
 
 // funcao para fazer a soma de termos
-void soma_termos(no ** pri, elemento a){
-    no *novo;
+void soma_termos(no ** pri){
     no *p;
-    float n = 1; //numerador
-    float d = 1; //denominador
-    float termo;
+    no *novo;
+    float n = 1;
+    float d = 1;
+    float termo = 0;
 
-    //primeiro vamos criar um nó com o elemento inicial
-    novo = novo_no();
-    novo->link = NULL;
-    termo = n / d;
-    novo->info = termo;
+    for (int i = 1; i<50 ; i++){
+        n = i;
+        
+        for(int j = (i-1) ; j>=1 ; j--){
+            n = n * j;
+        }
 
-    //agora atribuimos pri ao novo nó e em seguida também posicinamos p em pri
-    *pri = novo;
-    p = *pri;
+        if(i%2 == 0){
+            termo = termo - (n/d);
+        }else{
+            termo = termo + (n/d);
+        }
+        d += 2;
 
-    for (n=3 ; n< 100 ; n=n+2){
-        //vamos aumentando d de um em um
-        d++;
-
-        //criamos um novo no    
+        //criacao dinamica da lista
         novo = novo_no();
         novo->link = NULL;
-        termo += n / d;
         novo->info = termo;
-
-        //conectamos o novo no a lista
-        p->link = novo;
-
-        //movemos a posicao do p para o no criado
-        p = p->link;
+        if(i == 1){    
+            *pri = novo;
+            p = *pri;     
+        }else{
+            p->link = novo;
+            p = p->link;
+        }
+        
+        
     }
-}
 
+}
 
 int main(){
     no * pri;
@@ -120,11 +119,9 @@ int main(){
 
     pri = init();
 
-    soma_termos(&pri, a);
+    soma_termos(&pri);
 
     imprime(pri);
-
-
 
     return 0;
 }

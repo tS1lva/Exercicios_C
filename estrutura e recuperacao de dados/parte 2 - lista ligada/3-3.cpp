@@ -1,12 +1,10 @@
-/*
-2. Construir uma função que cria uma lista ligada para conter em cada nó um termo da seguinte soma: (ND 3)
-*/
+
 #include <iostream>
 #include <iomanip>
 #include <stdlib.h>
 using namespace std;
 
-typedef float elemento; //Estou dizendo que int agora irá se chamar elemento, dando um apelido, isso permite que daqui pra frente eu chame int de elemento!
+typedef char elemento; //Estou dizendo que int agora irá se chamar elemento, dando um apelido, isso permite que daqui pra frente eu chame int de elemento!
 
 typedef struct no{
     elemento info; //elemento é o tipo (nesse caso inteiro) e info o nome da variável.
@@ -19,7 +17,7 @@ void imprime(no* pri){
     p = pri;
 
     while(p != NULL){
-        cout<< p->info<<"  ";   //imprime o que está dentro de info
+        cout<< p->info/*<<"  "*/;   //imprime o que está dentro de info
         p = p->link;            //pula para o próximo nó.
     }
 };
@@ -74,57 +72,45 @@ int conta_nos(no* pri){
         contador ++;
     }
     return contador;
-}
+};
 
-
-// funcao para fazer a soma de termos
-void soma_termos(no ** pri, elemento a){
+// funcao que insere * entre os nós (caracteres)
+void insere_asterisco(no ** pri, elemento x){
     no *novo;
     no *p;
-    float n = 1; //numerador
-    float d = 1; //denominador
-    float termo;
 
-    //primeiro vamos criar um nó com o elemento inicial
-    novo = novo_no();
-    novo->link = NULL;
-    termo = n / d;
-    novo->info = termo;
-
-    //agora atribuimos pri ao novo nó e em seguida também posicinamos p em pri
-    *pri = novo;
     p = *pri;
 
-    for (n=3 ; n< 100 ; n=n+2){
-        //vamos aumentando d de um em um
-        d++;
-
-        //criamos um novo no    
+    while( p->link != NULL){
         novo = novo_no();
-        novo->link = NULL;
-        termo += n / d;
-        novo->info = termo;
-
-        //conectamos o novo no a lista
+        novo->info = x;
+        novo->link = p->link;
         p->link = novo;
-
-        //movemos a posicao do p para o no criado
-        p = p->link;
+        p = novo->link;
     }
 }
 
 
 int main(){
     no * pri;
-    int a = 1;
+    char x;
+    x = '*';
+
+    system("cls");
 
     pri = init();
+    
 
-    soma_termos(&pri, a);
+    inserir_final(&pri, 'N');
+    inserir_final(&pri, 'A');
+    inserir_final(&pri, 'Y');
 
     imprime(pri);
 
+    insere_asterisco(&pri, x);
+    cout<<"\nNova lista:\n";
 
+    imprime(pri);
 
     return 0;
 }
